@@ -1,12 +1,23 @@
 import { useForm } from "react-hook-form"
 import { TransactionType } from "../model/transaction"
+import type { Transaction } from "../model/transaction"
 
-export default function TransactionForm() {
+type TransactionFormProps = {
+  onAddTransaction: (transaction: Transaction) => void
+}
+
+export default function TransactionForm({ onAddTransaction }: TransactionFormProps) {
   const { register, handleSubmit, formState:{errors} } = useForm()
     
 
     function onSubmit(data:any) {
-        console.log(data)
+        const newTransaction: Transaction = {
+            title: data.title,
+            amount: data.amount,
+            type: data.transactionType,
+            date: new Date(data.date),
+        }
+        onAddTransaction(newTransaction)
     }
 
     

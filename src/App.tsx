@@ -1,10 +1,11 @@
+import { useState } from 'react'
 import './App.css'
 import TransactionForm from './components/TransactionForm'
 import TransactionList from './components/TransactionList'
 import { TransactionType, type Transaction } from './model/transaction'
 
 function App() {
-  const sampleTransactions: Transaction[] = [
+  const [transactions, setTransactions] = useState<Transaction[]>([
     {
       title: 'Salaire',
       amount: 2500,
@@ -17,13 +18,17 @@ function App() {
       type: TransactionType.Withdrawal,
       date: new Date('2024-03-03T10:30'),
     },
-  ]
+  ])
+
+  function handleAddTransaction(transaction: Transaction) {
+    setTransactions((current) => [...current, transaction])
+  }
 
   return (
     <>
 
-    <TransactionForm/>
-    <TransactionList transactions={sampleTransactions} />
+    <TransactionForm onAddTransaction={handleAddTransaction} />
+    <TransactionList transactions={transactions} />
     </>
   )
 }
