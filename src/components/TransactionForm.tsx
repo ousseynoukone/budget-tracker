@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { TransactionType } from "../assets/model/transaction"
+import { TransactionType } from "../model/transaction"
 
 export default function TransactionForm() {
   const { register, handleSubmit, formState:{errors} } = useForm()
