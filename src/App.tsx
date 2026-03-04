@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import TransactionForm from './components/TransactionForm'
 import TransactionList from './components/TransactionList'
+import Balance from './components/Balance'
 import { TransactionType, type Transaction } from './model/transaction'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
   return (
     <>
 
+    <Balance transactions={transactions} />
     <TransactionForm onAddTransaction={handleAddTransaction} />
     <TransactionList transactions={transactions} />
     </>
