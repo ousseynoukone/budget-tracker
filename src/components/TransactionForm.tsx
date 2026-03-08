@@ -12,6 +12,7 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
 
     function onSubmit(data:any) {
         const newTransaction: Transaction = {
+            id : crypto.randomUUID(),
             title: data.title,
             amount: data.amount,
             type: data.transactionType,
