@@ -1,28 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import TransactionForm from './components/TransactionForm'
 import TransactionList from './components/TransactionList'
 import Balance from './components/Balance'
 import Filter from './components/Filter'
 import { TransactionType, type Transaction } from './model/transaction'
+import { loadTransactions } from './utils/storage'
 
 function App() {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id : crypto.randomUUID(),
-      title: 'Salaire',
-      amount: 2500,
-      type: TransactionType.Deposit,
-      date: new Date('2024-03-01T09:00'),
-    },
-    {
-      id : crypto.randomUUID(),
-      title: 'Loyer',
-      amount: 900,
-      type: TransactionType.Withdrawal,
-      date: new Date('2024-03-03T10:30'),
-    },
-  ])
+  const [transactions, setTransactions] = useState<Transaction[]>([])
+
+
+  useEffect(() => {
+    const storedTransactions = loadTransactions();
+    setTransactions(storedTransactions);
+  }, []);
+    
 
   const [filter, setFilter] = useState<"all" | "income" | "expense">("all")
 

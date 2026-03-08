@@ -36,8 +36,8 @@ export default function TransactionList({ transactions }: TransactionListProps) 
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction, index) => (
-            <tr key={index}>
+          {transactions.map((transaction) => (
+            <tr key={transaction.id}>
               <td className="border border-gray-300 px-3 py-2">
                 {transaction.title}
               </td>
