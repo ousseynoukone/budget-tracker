@@ -1,26 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import TransactionForm from './components/TransactionForm'
 import TransactionList from './components/TransactionList'
 import Balance from './components/Balance'
 import Filter from './components/Filter'
 import { TransactionType, type Transaction } from './model/transaction'
+import { deleteTransaction, loadTransactions, saveTransactions } from './utils/storage'
 
 function App() {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      title: 'Salaire',
-      amount: 2500,
-      type: TransactionType.Deposit,
-      date: new Date('2024-03-01T09:00'),
-    },
-    {
-      title: 'Loyer',
-      amount: 900,
-      type: TransactionType.Withdrawal,
-      date: new Date('2024-03-03T10:30'),
-    },
-  ])
+  const [transactions, setTransactions] = useState<Transaction[]>([])
+
+
+  useEffect(() => {
+    const storedTransactions = loadTransactions();
+    setTransactions(storedTransactions);
+  }, []);
+    
 
   const [filter, setFilter] = useState<"all" | "income" | "expense">("all")
 
@@ -42,15 +37,20 @@ function App() {
 
   function handleAddTransaction(transaction: Transaction) {
     setTransactions((current) => [...current, transaction])
+    saveTransactions(transaction)
+  }
+
+  function handleDeleteTransaction(id: string) {
+    setTransactions((current) => current.filter(transaction => transaction.id !== id))
+    deleteTransaction(id)
   }
 
   return (
     <>
-
-    <Filter value={filter} onChange={setFilter} />
-    <Balance transactions={filteredTransactions} />
-    <TransactionForm onAddTransaction={handleAddTransaction} />
-    <TransactionList transactions={filteredTransactions} />
+      <Filter value={filter} onChange={setFilter} />
+      <Balance transactions={filteredTransactions} />
+      <TransactionForm onAddTransaction={handleAddTransaction} />
+      <TransactionList transactions={filteredTransactions} onDeleteTransaction={handleDeleteTransaction} />
     </>
   )
 }

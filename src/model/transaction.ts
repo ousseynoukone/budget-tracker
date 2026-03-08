@@ -8,6 +8,7 @@ export type TransactionType =
   typeof TransactionType[keyof typeof TransactionType];
 
 export interface Transaction {
+    id : string,
     title: string,
     amount: number,
     type : TransactionType,
