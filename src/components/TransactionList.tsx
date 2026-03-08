@@ -2,9 +2,10 @@ import type { Transaction } from "../model/transaction";
 
 type TransactionListProps = {
   transactions: Transaction[];
+  onDeleteTransaction: (id: string) => void;
 };
 
-export default function TransactionList({ transactions }: TransactionListProps) {
+export default function TransactionList({ transactions, onDeleteTransaction }: TransactionListProps) {
   if (transactions.length === 0) {
     return (
       <div className="p-5">
@@ -33,6 +34,10 @@ export default function TransactionList({ transactions }: TransactionListProps) 
             <th className="border text-black border-gray-300 px-3 py-2 text-left">
               Date
             </th>
+
+            <th className="border text-black border-gray-300 px-3 py-2 text-left">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -49,6 +54,14 @@ export default function TransactionList({ transactions }: TransactionListProps) 
               </td>
               <td className="border border-gray-300 px-3 py-2">
                 {transaction.date.toLocaleString()}
+              </td>
+              <td className="border border-gray-300 px-3 py-2">
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                  onClick={() => onDeleteTransaction(transaction.id)}
+                >
+                  Supprimer
+                </button>
               </td>
             </tr>
           ))}

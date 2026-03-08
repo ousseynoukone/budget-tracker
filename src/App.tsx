@@ -5,7 +5,7 @@ import TransactionList from './components/TransactionList'
 import Balance from './components/Balance'
 import Filter from './components/Filter'
 import { TransactionType, type Transaction } from './model/transaction'
-import { loadTransactions } from './utils/storage'
+import { deleteTransaction, loadTransactions, saveTransactions } from './utils/storage'
 
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([])
@@ -37,15 +37,20 @@ function App() {
 
   function handleAddTransaction(transaction: Transaction) {
     setTransactions((current) => [...current, transaction])
+    saveTransactions(transaction)
+  }
+
+  function handleDeleteTransaction(id: string) {
+    setTransactions((current) => current.filter(transaction => transaction.id !== id))
+    deleteTransaction(id)
   }
 
   return (
     <>
-
-    <Filter value={filter} onChange={setFilter} />
-    <Balance transactions={filteredTransactions} />
-    <TransactionForm onAddTransaction={handleAddTransaction} />
-    <TransactionList transactions={filteredTransactions} />
+      <Filter value={filter} onChange={setFilter} />
+      <Balance transactions={filteredTransactions} />
+      <TransactionForm onAddTransaction={handleAddTransaction} />
+      <TransactionList transactions={filteredTransactions} onDeleteTransaction={handleDeleteTransaction} />
     </>
   )
 }
