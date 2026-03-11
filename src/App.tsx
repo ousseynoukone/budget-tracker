@@ -16,7 +16,6 @@ function App() {
     setTransactions(storedTransactions);
   }, []);
     
-
   const [filter, setFilter] = useState<"all" | "income" | "expense">("all")
 
   const filteredTransactions = transactions.filter((transaction) => {
